@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="393.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.CrearEditarUsuario">
+   <children>
+      <TextField fx:id="txtusuariodni" layoutX="169.0" layoutY="58.0" prefHeight="26.0" prefWidth="189.0" />
+      <TextField fx:id="txtusuariotelefono" layoutX="169.0" layoutY="262.0" prefHeight="26.0" prefWidth="189.0" />
+      <TextField fx:id="txtusuarioapellidos" layoutX="169.0" layoutY="157.0" prefHeight="26.0" prefWidth="189.0" />
+      <TextField fx:id="txtusuarionombre" layoutX="169.0" layoutY="105.0" prefHeight="26.0" prefWidth="189.0" />
+      <ComboBox fx:id="cmbusuariosexo" layoutX="169.0" layoutY="210.0" prefHeight="26.0" prefWidth="190.0" />
+      <Label layoutX="71.0" layoutY="57.0" prefHeight="18.0" prefWidth="97.0" text="DNI:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="71.0" layoutY="261.0" prefHeight="18.0" prefWidth="97.0" text="Telefono:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="71.0" layoutY="209.0" prefHeight="18.0" prefWidth="97.0" text="Sexo:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="71.0" layoutY="156.0" prefHeight="18.0" prefWidth="97.0" text="Apellidos:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="71.0" layoutY="104.0" prefHeight="18.0" prefWidth="97.0" text="Nombre:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="71.0" layoutY="366.0" prefHeight="18.0" prefWidth="97.0" text="Foto">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnusuariofoto" layoutX="285.0" layoutY="356.0" mnemonicParsing="false" onAction="#seleccionarFoto" prefHeight="73.0" prefWidth="66.0">
+         <graphic>
+            <ImageView fitHeight="60.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@subirfoto.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <tooltip>
+            <Tooltip text="Subir archivo" />
+         </tooltip>
+      </Button>
+      <Button fx:id="btnusuariocancelar" layoutX="45.0" layoutY="443.0" mnemonicParsing="false" onAction="#cancelarusuario" prefHeight="39.0" prefWidth="76.0" text="Cancelar" />
+      <Button fx:id="btnusuarioaceptar" layoutX="285.0" layoutY="443.0" mnemonicParsing="false" onAction="#aceptarusuario" prefHeight="39.0" prefWidth="76.0" text="Aceptar" />
+      <Label layoutX="71.0" layoutY="317.0" prefHeight="27.0" prefWidth="148.0" text="Fecha nacimiento:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="dateusuariosfechanac" layoutX="225.0" layoutY="318.0" prefHeight="26.0" prefWidth="133.0" />
+   </children>
+</AnchorPane>

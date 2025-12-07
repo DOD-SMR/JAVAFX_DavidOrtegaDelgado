@@ -1,0 +1,71 @@
+/* Fondo general del formulario */
+.form-root {
+    -fx-background-color: #fafafa;
+    -fx-padding: 20;
+}
+
+/* Etiquetas */
+.form-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #333;
+    -fx-font-weight: bold;
+}
+
+/* Campos de texto */
+.form-textfield {
+    -fx-background-color: white;
+    -fx-border-color: #bdbdbd;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 4;
+}
+
+/* Combobox */
+.form-combobox {
+    -fx-background-color: white;
+    -fx-border-color: #bdbdbd;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* Spinner */
+.form-spinner {
+    -fx-background-color: white;
+    -fx-border-color: #bdbdbd;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* Botones generales */
+.form-button-cancel,
+.form-button-accept,
+.form-button-icon {
+    -fx-background-radius: 6;
+    -fx-font-weight: bold;
+}
+
+/* Botón cancelar (rojo) */
+.form-button-cancel {
+    -fx-background-color: #d9534f;
+    -fx-text-fill: white;
+}
+
+/* Botón aceptar (verde) */
+.form-button-accept {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+/* Botón con icono */
+.form-button-icon {
+    -fx-background-color: #eeeeee;
+    -fx-border-color: #bdbdbd;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+.form-date {
+    -fx-background-color: white;
+    -fx-border-color: #bdbdbd;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}

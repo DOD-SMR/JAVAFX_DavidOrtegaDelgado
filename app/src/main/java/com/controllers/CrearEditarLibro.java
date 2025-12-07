@@ -17,6 +17,7 @@ import org.controlsfx.validation.Validator;
 
 import com.javafx.Libro;
 import com.javafx.Modelo;
+import com.javafx.Prestamo;
 import com.javafx.Rellenable;
 
 import javafx.application.Platform;
@@ -29,6 +30,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -85,7 +87,7 @@ public class CrearEditarLibro implements Rellenable,Initializable{
         
     
 
-    System.out.println("Libro válido. Guardando...");
+    System.out.println("Datos válidos. Guardando...");
 
     String estado = cmblibrosestado.getSelectionModel().getSelectedItem();
     int paginas  =spinnerlibrospaginas.getValue().intValue();
@@ -93,32 +95,37 @@ public class CrearEditarLibro implements Rellenable,Initializable{
     String titulo = txtlibrostitulo.getText();
     String genero = txtlibrosgenero.getText();
     String isbn = txtlibrosisbn.getText();
+    boolean yaExiste = Prestamo.getListaLibros().stream().anyMatch(libro -> libro.getISBN().equals(isbn));
+    
     if (creando) {
-        
-
-
-        String sql = "INSERT INTO LIBRO (ISBN, Titulo, Autor, Estado, Nro_paginas, Imagen_portada, Generos) "
+        if (!yaExiste) {
+            String sql = "INSERT INTO LIBRO (ISBN, Titulo, Autor, Estado, Nro_paginas, Imagen_portada, Generos) "
            + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-try {
-    PreparedStatement ps = this.conexionBBDD.prepareStatement(sql);
-    ps.setString(1, isbn);
-    ps.setString(2, titulo);
-    ps.setString(3, autor);
-    ps.setString(4, estado);
-    ps.setInt(5, paginas);
-    ps.setString(6, imagenPortada);
-    ps.setString(7, genero);
+            try {
+                PreparedStatement ps = this.conexionBBDD.prepareStatement(sql);
+                ps.setString(1, isbn);
+                ps.setString(2, titulo);
+                ps.setString(3, autor);
+                ps.setString(4, estado);
+                ps.setInt(5, paginas);
+                ps.setString(6, imagenPortada);
+                ps.setString(7, genero);
 
-    int filasInsertadas = ps.executeUpdate();
-    if (filasInsertadas > 0) {
-        System.out.println("Libro insertado correctamente.");
-    }
-    ps.close();
-   
-} catch (SQLException e) {
-    e.printStackTrace();
-}
+                int filasInsertadas = ps.executeUpdate();
+                if (filasInsertadas > 0) {
+                    System.out.println("Libro insertado correctamente.");
+                }
+                ps.close();
+            
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }else{
+            Alert a1 =new Alert(AlertType.ERROR,"ERROR, EL ISBN YA EXISTE");
+            a1.showAndWait();
+        }
+        
     }else{
         String sql = "UPDATE LIBRO SET Titulo=?, Autor=?, Estado=?, Nro_paginas=?, Imagen_portada=?, Generos=? WHERE ISBN=?";
 

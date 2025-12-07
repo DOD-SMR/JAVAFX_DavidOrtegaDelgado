@@ -4,42 +4,98 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="393.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.CrearEditarPrestamo">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="521.0" prefWidth="393.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.controllers.CrearEditarPrestamo"
+            stylesheets="stylesformulario.css"
+            styleClass="form-root">
+
    <children>
-      <Label layoutX="37.0" layoutY="65.0" prefHeight="27.0" prefWidth="142.0" text="DNI:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="37.0" layoutY="104.0" prefHeight="27.0" prefWidth="142.0" text="ISBN:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <DatePicker fx:id="dateprestamosinicio" layoutX="179.0" layoutY="161.0" />
-      <DatePicker fx:id="dateprestamosfinal" layoutX="179.0" layoutY="209.0" />
-      <Label layoutX="37.0" layoutY="160.0" prefHeight="27.0" prefWidth="142.0" text="Fecha Inicio:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="37.0" layoutY="208.0" prefHeight="27.0" prefWidth="142.0" text="Fecha Fin:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="38.0" layoutY="254.0" prefHeight="27.0" prefWidth="141.0" text="Estado entrega:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="cmbprestamosestado" layoutX="179.0" layoutY="255.0" prefHeight="26.0" prefWidth="175.0" />
-      <Button fx:id="btnprestamoscancelar" layoutX="37.0" layoutY="436.0" mnemonicParsing="false" onAction="#cancelarprestamo" prefHeight="40.0" prefWidth="62.0" text="Cancelar" />
-      <Button fx:id="btnprestamosaceptar" layoutX="302.0" layoutY="436.0" mnemonicParsing="false" onAction="#aceptarprestamo" prefHeight="40.0" prefWidth="58.0" text="Aceptar" />
-      <ComboBox fx:id="cmbprestamosdni" layoutX="179.0" layoutY="65.0" prefHeight="26.0" prefWidth="175.0" />
-      <ComboBox fx:id="cmbprestamosisbn" layoutX="179.0" layoutY="104.0" prefHeight="26.0" prefWidth="175.0" />
+
+      <!-- DNI -->
+      <Label text="DNI:" layoutX="37" layoutY="65"
+             styleClass="form-label" />
+
+      <ComboBox fx:id="cmbprestamosdni" layoutX="179" layoutY="65"
+                prefWidth="175" prefHeight="26"
+                styleClass="form-combobox">
+         <tooltip>
+            <Tooltip text="Selecciona el DNI del usuario que realiza el préstamo." />
+         </tooltip>
+      </ComboBox>
+
+
+      <!-- ISBN -->
+      <Label text="ISBN:" layoutX="37" layoutY="104"
+             styleClass="form-label" />
+
+      <ComboBox fx:id="cmbprestamosisbn" layoutX="179" layoutY="104"
+                prefWidth="175" prefHeight="26"
+                styleClass="form-combobox">
+         <tooltip>
+            <Tooltip text="Selecciona el ISBN del libro prestado." />
+         </tooltip>
+      </ComboBox>
+
+
+      <!-- Fecha inicio -->
+      <Label text="Fecha Inicio:" layoutX="37" layoutY="160"
+             styleClass="form-label" />
+
+      <DatePicker fx:id="dateprestamosinicio" layoutX="179" layoutY="161"
+                  styleClass="form-date">
+         <tooltip>
+            <Tooltip text="Selecciona la fecha en la que empieza el préstamo." />
+         </tooltip>
+      </DatePicker>
+
+
+      <!-- Fecha fin -->
+      <Label text="Fecha Fin:" layoutX="37" layoutY="208"
+             styleClass="form-label" />
+
+      <DatePicker fx:id="dateprestamosfinal" layoutX="179" layoutY="209"
+                  styleClass="form-date">
+         <tooltip>
+            <Tooltip text="Selecciona la fecha prevista de devolución." />
+         </tooltip>
+      </DatePicker>
+
+
+      <!-- Estado entrega -->
+      <Label text="Estado entrega:" layoutX="38" layoutY="254"
+             styleClass="form-label" />
+
+      <ComboBox fx:id="cmbprestamosestado" layoutX="179" layoutY="255"
+                prefWidth="175" prefHeight="26"
+                styleClass="form-combobox">
+         <tooltip>
+            <Tooltip text="Selecciona si el libro está entregado, pendiente o retrasado." />
+         </tooltip>
+      </ComboBox>
+
+
+      <!-- Botón cancelar -->
+      <Button fx:id="btnprestamoscancelar" text="Cancelar"
+              layoutX="37" layoutY="436"
+              prefWidth="80" prefHeight="40"
+              onAction="#cancelarprestamo"
+              styleClass="form-button-cancel" />
+
+      <!-- Botón aceptar -->
+      <Button fx:id="btnprestamosaceptar" text="Aceptar"
+              layoutX="302" layoutY="436"
+              prefWidth="80" prefHeight="40"
+              onAction="#aceptarprestamo"
+              styleClass="form-button-accept" />
+
    </children>
+
 </AnchorPane>

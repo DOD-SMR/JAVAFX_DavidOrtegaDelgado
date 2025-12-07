@@ -16,6 +16,7 @@ import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
 import com.javafx.Modelo;
+import com.javafx.Prestamo;
 import com.javafx.Rellenable;
 import com.javafx.Usuario;
 
@@ -24,6 +25,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -79,7 +81,7 @@ public class CrearEditarUsuario implements Rellenable, Initializable {
             return;
         }
 
-        System.out.println("Usuario válido. Guardando...");
+        System.out.println("Datos válidos. Guardando...");
 
         String dni = txtusuariodni.getText();
         String nombre = txtusuarionombre.getText();
@@ -90,31 +92,39 @@ public class CrearEditarUsuario implements Rellenable, Initializable {
         String telefono = txtusuariotelefono.getText();
         String sexo = cmbusuariosexo.getSelectionModel().getSelectedItem();
         String fecha_Nac = dateusuariosfechanac.getValue().toString();
+        boolean yaExiste = Prestamo.getListaUsuarios().stream().anyMatch(usuario -> usuario.getDNI().equals(dni));
 
         if (creando) {
             // INSERT
-            String sql = "INSERT INTO USUARIO (DNI, Nombre, Apellido1, Apellido2, FECHA_NACIMIENTO,Telefono, Sexo, Foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            if (!yaExiste) {
+                String sql = "INSERT INTO USUARIO (DNI, Nombre, Apellido1, Apellido2, FECHA_NACIMIENTO,Telefono, Sexo, Foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-            try {
-                PreparedStatement ps = this.conexionBBDD.prepareStatement(sql);
-                ps.setString(1, dni);
-                ps.setString(2, nombre);
-                ps.setString(3, apellido1);
-                ps.setString(4, apellido2);
-                ps.setString(5, fecha_Nac);
-                ps.setString(6, telefono);
-                ps.setString(7, sexo);
-                ps.setString(8, imagenFoto);
+                try {
+                    PreparedStatement ps = this.conexionBBDD.prepareStatement(sql);
+                    ps.setString(1, dni);
+                    ps.setString(2, nombre);
+                    ps.setString(3, apellido1);
+                    ps.setString(4, apellido2);
+                    ps.setString(5, fecha_Nac);
+                    ps.setString(6, telefono);
+                    ps.setString(7, sexo);
+                    ps.setString(8, imagenFoto);
 
-                int filasInsertadas = ps.executeUpdate();
-                if (filasInsertadas > 0) {
-                    System.out.println("Usuario insertado correctamente.");
+                    int filasInsertadas = ps.executeUpdate();
+                    if (filasInsertadas > 0) {
+                        System.out.println("Usuario insertado correctamente.");
+                    }
+                    ps.close();
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                ps.close();
-
-            } catch (SQLException e) {
-                e.printStackTrace();
+            }else{
+                Alert a1 =new Alert(AlertType.ERROR,"ERROR, EL DNI YA EXISTE");
+                a1.showAndWait();
+                System.out.println("ERROR AL GUARDAR, EL DNI DEL USUARIO YA EXISTE");
             }
+            
         } else {
             // UPDATE
             String sql = "UPDATE USUARIO SET Nombre=?, Apellido1=?,Apellido2=?, FECHA_NACIMIENTO=?,Telefono=?, Sexo=?, Foto=? WHERE DNI=?";
@@ -129,7 +139,7 @@ public class CrearEditarUsuario implements Rellenable, Initializable {
                 ps.setString(6, sexo);
                 ps.setString(7, imagenFoto);
                 ps.setString(8, dni);
-
+                
                 int filasActualizadas = ps.executeUpdate();
                 if (filasActualizadas > 0) {
                     System.out.println("Usuario actualizado correctamente.");

@@ -28,7 +28,9 @@ public class Filtrar implements Filtro {
     @FXML
     void aceptarFiltro(ActionEvent event) {
         System.out.println("Filtro aceptado");
-        this.txtusuariofiltro.setText(this.tabTrabajar.getId());
+        if (this.tabTrabajar.getId().equals("tabUsuarios")) {
+            
+        }
     }
 
     @FXML

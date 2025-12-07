@@ -561,30 +561,40 @@ public class ControladorPrincipal implements Initializable{
         this.librosOL.forEach( (libro) ->{
             if (this.fila<=3) {
                 AnchorPane root = new AnchorPane();
+                root.getStyleClass().remove("card-selected");
+                root.getStyleClass().add("card"); // clase seleccionado
                 root.setOnMouseClicked(e -> {
                     this.modeloAPasar=libro;
                     this.anchorPaneSeleccionado = root;
                     System.out.println("AnchorPane seleccionado");
                     this.librosGridPane.getChildren().forEach(
                         pane -> {
-                            pane.setStyle("-fx-background-color: #ffffffff;");
+                            pane.getStyleClass().remove("card-selected");
+                            if (!pane.getStyleClass().contains("card")) {
+                                pane.getStyleClass().add("card");
+                            }
                         }
                     );
-                     root.setStyle("-fx-background-color: #2196F3;");
+                    root.getStyleClass().remove("card");
+                    root.getStyleClass().add("card-selected"); // clase seleccionado
 
                 });
-                root.setPrefSize(200, 150);
-               
+                root.setPrefSize(150, 150); // ancho x alto fijo
+                root.setMinSize(150, 150);
+                root.setMaxSize(150, 150);
+                
                 VBox card = new VBox(10); 
                 card.setPadding(new Insets(20));
                 card.setAlignment(Pos.CENTER);
                 Label labelPrincipal = new Label(libro.getTitulo());
-                labelPrincipal.setFont(Font.font("Arial", 24));
+                labelPrincipal.setFont(Font.font("Arial", 14));
                 Label labelSecundario = new Label(libro.getAutor());
-                labelSecundario.setFont(Font.font("Arial", 16));
+                labelSecundario.setFont(Font.font("Arial", 10));
                 labelSecundario.setTextFill(Color.GRAY);
                 ImageView imageView = libro.getImagen_portada();
                 Button boton = new Button("Mostrar datos");
+                
+                
                 boton.setOnAction((e) -> {
                     Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                     alerta.setTitle(libro.getTitulo());

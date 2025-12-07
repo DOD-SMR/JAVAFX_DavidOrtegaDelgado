@@ -89,7 +89,8 @@
                             <RowConstraints minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                         </GridPane>
-                     </children></AnchorPane>
+                     </children>
+                  </AnchorPane>
               </content>
                <graphic>
                   <ImageView fitHeight="22.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
@@ -116,7 +117,7 @@
             <Insets />
          </opaqueInsets>
       </TabPane>
-      <HBox alignment="CENTER_RIGHT" layoutX="336.0" layoutY="435.0" prefHeight="100.0" prefWidth="590.0">
+      <HBox alignment="CENTER_RIGHT" layoutX="300.0" layoutY="450.0" prefHeight="100.0" prefWidth="590.0">
          <children>
             <Button fx:id="botonFiltro" mnemonicParsing="false" onAction="#abrirFiltrar" prefHeight="62.0" prefWidth="58.0">
                <opaqueInsets>

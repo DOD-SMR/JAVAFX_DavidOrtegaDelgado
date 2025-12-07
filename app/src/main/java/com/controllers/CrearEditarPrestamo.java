@@ -16,6 +16,8 @@ import com.javafx.Modelo;
 import com.javafx.Prestamo;
 import com.javafx.Rellenable;
 import com.javafx.Usuario;
+import com.pixelduke.transit.Style;
+import com.pixelduke.transit.TransitTheme;
 
 import javafx.application.Platform;
 import javafx.beans.Observable;
@@ -312,6 +314,7 @@ public class CrearEditarPrestamo implements Rellenable,Initializable {
         // TODO Auto-generated method stub
         Platform.runLater( () -> {
             Stage stage = (Stage)this.btnprestamoscancelar.getScene().getWindow();
+           
             Image icon = new Image(getClass().getResourceAsStream("/iconoPrincipal.png"));
             stage.getIcons().add(icon);
         });

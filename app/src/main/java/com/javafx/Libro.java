@@ -33,8 +33,8 @@ public class Libro implements Modelo{
         ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
         Image image = new Image(bis);
         this.imagen_portada = new ImageView(image);
-        this.imagen_portada.setFitHeight(64);
-        this.imagen_portada.setFitWidth(32);
+        this.imagen_portada.setFitHeight(128);
+        this.imagen_portada.setFitWidth(64);
         this.imagen_portada.setPreserveRatio(true);
         this.generos = generos;
     }

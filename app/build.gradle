@@ -20,6 +20,7 @@ dependencies {
     implementation 'org.openjfx:javafx-controls:21.0.1'
     implementation 'org.openjfx:javafx-fxml:21.0.1'
     implementation "org.openjfx:javafx-swing:21"
+    implementation 'com.pixelduke:transit:2.0.0'
 }
 
 java {
@@ -36,7 +37,7 @@ sourceSets {
     main {
         resources {
             srcDirs = ["src/main/resources"]
-            includes = ["**/*.fxml","**/*.png","**/*.properties","**/*.jpg"]
+            includes = ["**/*.fxml","**/*.png","**/*.properties","**/*.jpg","**/*.css"]
         }
     }
 }

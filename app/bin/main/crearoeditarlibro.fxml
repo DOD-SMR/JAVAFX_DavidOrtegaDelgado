@@ -11,62 +11,119 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="393.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.CrearEditarLibro">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="521.0" prefWidth="393.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.controllers.CrearEditarLibro"
+            stylesheets="@stylesForm.css"
+            styleClass="form-root">
+
    <children>
-      <Label layoutX="37.0" layoutY="65.0" prefHeight="27.0" prefWidth="142.0" text="ISBN:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtlibrosisbn" layoutX="179.0" layoutY="65.0" prefHeight="27.0" prefWidth="175.0" />
-      <Label layoutX="37.0" layoutY="104.0" prefHeight="27.0" prefWidth="142.0" text="Titulo:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtlibrostitulo" layoutX="179.0" layoutY="104.0" prefHeight="27.0" prefWidth="175.0" />
-      <Label layoutX="36.0" layoutY="146.0" prefHeight="27.0" prefWidth="142.0" text="Autor:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="38.0" layoutY="224.0" prefHeight="27.0" prefWidth="141.0" text="Estado:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="cmblibrosestado" layoutX="180.0" layoutY="224.0" prefHeight="26.0" prefWidth="175.0" />
-      <Button fx:id="btnlibroscancelar" layoutX="37.0" layoutY="436.0" mnemonicParsing="false" onAction="#cancelarLibro" prefHeight="40.0" prefWidth="62.0" text="Cancelar" />
-      <Button fx:id="btnlibrosaceptar" layoutX="302.0" layoutY="436.0" mnemonicParsing="false" onAction="#aceptarLibro" prefHeight="40.0" prefWidth="58.0" text="Aceptar" />
-      <TextField fx:id="txtlibrosautor" layoutX="179.0" layoutY="146.0" prefHeight="27.0" prefWidth="175.0" />
-      <Spinner fx:id="spinnerlibrospaginas" layoutX="180.0" layoutY="271.0" prefHeight="26.0" prefWidth="175.0" />
-      <Label layoutX="37.0" layoutY="270.0" prefHeight="27.0" prefWidth="141.0" text="Numero páginas:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="37.0" layoutY="187.0" prefHeight="27.0" prefWidth="142.0" text="Genero:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txtlibrosgenero" layoutX="180.0" layoutY="187.0" prefHeight="27.0" prefWidth="175.0" />
-      <Label layoutX="36.0" layoutY="324.0" prefHeight="27.0" prefWidth="141.0" text="Imagen portada:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Button fx:id="btnlibrosportada" layoutX="235.0" layoutY="320.0" mnemonicParsing="false" onAction="#seleccionarimagenportada" prefHeight="62.0" prefWidth="62.0">
+
+      <!-- ISBN -->
+      <Label text="ISBN:" layoutX="37" layoutY="65"
+             styleClass="form-label" />
+
+      <TextField fx:id="txtlibrosisbn" layoutX="179" layoutY="65"
+                 styleClass="form-textfield">
+         <tooltip>
+            <Tooltip text="Debe contener un ISBN válido (sin espacios)." />
+         </tooltip>
+      </TextField>
+
+
+      <!-- Titulo -->
+      <Label text="Titulo:" layoutX="37" layoutY="104"
+             styleClass="form-label" />
+
+      <TextField fx:id="txtlibrostitulo" layoutX="179" layoutY="104"
+                 styleClass="form-textfield">
+         <tooltip>
+            <Tooltip text="Introduce el título del libro. No puede quedar vacío." />
+         </tooltip>
+      </TextField>
+
+
+      <!-- Autor -->
+      <Label text="Autor:" layoutX="37" layoutY="146"
+             styleClass="form-label" />
+
+      <TextField fx:id="txtlibrosautor" layoutX="179" layoutY="146"
+                 styleClass="form-textfield">
+         <tooltip>
+            <Tooltip text="Introduce el nombre del autor. No puede quedar vacío." />
+         </tooltip>
+      </TextField>
+
+
+      <!-- Género -->
+      <Label text="Genero:" layoutX="37" layoutY="187"
+             styleClass="form-label" />
+
+      <TextField fx:id="txtlibrosgenero" layoutX="180" layoutY="187"
+                 styleClass="form-textfield">
+         <tooltip>
+            <Tooltip text="Introduce uno o varios géneros. Ejemplo: Fantasía, Terror, Drama..." />
+         </tooltip>
+      </TextField>
+
+
+      <!-- Estado -->
+      <Label text="Estado:" layoutX="37" layoutY="224"
+             styleClass="form-label" />
+
+      <ComboBox fx:id="cmblibrosestado" layoutX="180" layoutY="224"
+                styleClass="form-combobox" />
+
+
+      <!-- Número de páginas -->
+      <Label text="Numero páginas:" layoutX="37" layoutY="270"
+             styleClass="form-label" />
+
+      <Spinner fx:id="spinnerlibrospaginas" layoutX="180" layoutY="271"
+               styleClass="form-spinner">
+         <tooltip>
+            <Tooltip text="Introduce el número de páginas. Debe ser mayor a 1 e igual o inferior a 5000." />
+         </tooltip>
+      </Spinner>
+
+
+      <!-- Imagen portada -->
+      <Label text="Imagen portada:" layoutX="37" layoutY="324"
+             styleClass="form-label" />
+
+      <Button fx:id="btnlibrosportada" layoutX="180" layoutY="320"
+              onAction="#seleccionarimagenportada"
+              styleClass="form-button-icon">
+
          <graphic>
-            <ImageView fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitWidth="62" fitHeight="62" preserveRatio="true">
                <image>
                   <Image url="@subirfoto.png" />
                </image>
             </ImageView>
          </graphic>
+
          <tooltip>
-            <Tooltip text="Subir archivo" />
+            <Tooltip text="Selecciona una imagen JPEG o PNG como portada." />
          </tooltip>
       </Button>
+
+
+      <!-- Botón cancelar -->
+      <Button fx:id="btnlibroscancelar" text="Cancelar"
+              layoutX="37" layoutY="436" prefWidth="62" prefHeight="40"
+              onAction="#cancelarLibro"
+              styleClass="form-button-cancel" />
+
+      <!-- Botón aceptar -->
+      <Button fx:id="btnlibrosaceptar" text="Aceptar"
+              layoutX="302" layoutY="436" prefWidth="58" prefHeight="40"
+              onAction="#aceptarLibro"
+              styleClass="form-button-accept" />
+
    </children>
+
 </AnchorPane>

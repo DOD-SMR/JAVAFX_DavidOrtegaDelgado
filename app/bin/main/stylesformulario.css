@@ -69,3 +69,9 @@
     -fx-border-radius: 5;
     -fx-background-radius: 5;
 }
+#fechanac{
+    -fx-background-color: white;
+    -fx-border-color: #bdbdbd;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}

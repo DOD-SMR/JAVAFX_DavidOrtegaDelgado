@@ -262,7 +262,7 @@ private String convertirArchivoA64(File archivo) throws IOException {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // TODO Auto-generated method stub
+
         Platform.runLater( () -> {
             Stage stage = (Stage)this.cmblibrosestado.getScene().getWindow();
             Image icon = new Image(getClass().getResourceAsStream("/iconoPrincipal.png"));

@@ -15,13 +15,13 @@ javafx {
 dependencies {
     implementation 'mysql:mysql-connector-java:8.0.15'
 
-   
     implementation 'org.controlsfx:controlsfx:11.2.2'
     implementation 'org.openjfx:javafx-controls:21.0.1'
     implementation 'org.openjfx:javafx-fxml:21.0.1'
     implementation "org.openjfx:javafx-swing:21"
     implementation 'com.pixelduke:transit:2.0.0'
 }
+
 
 java {
     toolchain {
@@ -30,9 +30,12 @@ java {
 }
 
 application {
-    mainClass = 'java.com.javafx.Main'
+    mainClass = 'com.javafx.Main'
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 sourceSets {
     main {
         resources {

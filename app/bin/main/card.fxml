@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane prefHeight="650.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controllers.Card">
+
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="15.0">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+
+            <!-- Imagen grande -->
+            <ImageView fx:id="imgCardPortada" fitHeight="400.0" fitWidth="300.0" preserveRatio="true" />
+
+            <!-- Información del libro -->
+            <VBox alignment="CENTER_LEFT" spacing="10.0">
+                <Text fx:id="txtCardTitulo" text="Título del libro" wrappingWidth="300.0">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Text>
+                <Text fx:id="txtCardAutor" text="Autor" wrappingWidth="300.0">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Text>
+                <Text fx:id="txtCardPaginas" text="Número de páginas" wrappingWidth="300.0">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Text>
+                <Text fx:id="txtCardEstado" text="Estado" wrappingWidth="300.0">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Text>
+                <Text fx:id="txtCardISBN" text="ISBN" wrappingWidth="300.0">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Text>
+            </VBox>
+        </VBox>
+    </center>
+   <bottom>
+
+         <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#salir" text="Salir" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

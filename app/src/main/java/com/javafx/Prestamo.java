@@ -1,8 +1,11 @@
 package com.javafx;
 
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Prestamo implements Modelo{
+    private ImageView imagenEntrega;
     private int idPrestamo;
     private String DNI;
     private String ISBN;
@@ -21,6 +24,9 @@ public class Prestamo implements Modelo{
         this.fecha_devolucion = fecha_devolucion;
         this.dias_restantes = dias_restantes;
         this.buenestado = buenestado;
+        this.imagenEntrega = new ImageView(new Image(getClass().getResourceAsStream(buenestado ? "/BienEntregado.png" : "/MalEntregado.png")));
+        this.imagenEntrega.setFitHeight(32);
+        this.imagenEntrega.setFitWidth(32);
     }
     public static Prestamo crear(int idPrestamo,String DNI, String ISBN, String fecha_inicio, String fecha_devolucion,int dias_restantes,boolean buenestado) {
             boolean usuarioExiste = usuariosOL.stream()
@@ -79,8 +85,12 @@ public class Prestamo implements Modelo{
         Prestamo.librosOL = listaLibros;
         Prestamo.usuariosOL = listaUsuarios;
     }
+    
     public static ObservableList<Usuario> getListaUsuarios(){
         return Prestamo.usuariosOL;
+    }
+    public ImageView isImagenEntrega(){
+        return this.imagenEntrega;
     }
     public static ObservableList<Libro> getListaLibros(){
         return Prestamo.librosOL;

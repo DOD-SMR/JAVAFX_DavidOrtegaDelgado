@@ -5,16 +5,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
+
+import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
+
 import com.javafx.Libro;
 import com.javafx.Modelo;
 import com.javafx.Prestamo;
 import com.javafx.Rellenable;
 import com.javafx.TipoVentana;
 import com.javafx.Usuario;
+import com.pixelduke.transit.TransitTheme;
+
 import java.sql.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +32,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
@@ -34,6 +42,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -57,6 +66,16 @@ public class ControladorPrincipal implements Initializable{
     protected ObservableList<Usuario> usuariosOL;
     protected ObservableList<Prestamo> prestamosOL;
     protected ObservableList<Libro> librosOL;
+    private FilteredList<Usuario> listafiltradaUsuarios;
+    private FilteredList<Prestamo> listafiltradaPrestamos;
+    private FilteredList<Libro> listafiltradaLibros;
+    private ContextMenu menuContextualTablasCards;
+    private ContextMenu menuContextualItems;
+
+// Crear los items del menú
+
+
+    
     private  List<String> tablasValidas = Arrays.asList("USUARIO", "PRESTAMO", "LIBRO");
     
     @FXML
@@ -100,7 +119,7 @@ public class ControladorPrincipal implements Initializable{
     private TableColumn<Prestamo, String> prestamosDNI;
 
     @FXML
-    private TableColumn<Prestamo, Boolean> prestamosEntregado;
+    private TableColumn<Prestamo, ImageView> prestamosEntregado;
 
     @FXML
     private TableColumn<Prestamo, String> prestamosFechaDevolucion;
@@ -147,15 +166,26 @@ public class ControladorPrincipal implements Initializable{
     @FXML
     void abrirFiltrar(ActionEvent event) throws IOException{
         
-        crearVentana("/filtrar.fxml","Aplicar filtro").show();
-
+        Stage ventana = crearVentana("/filtrar.fxml","Aplicar filtro");
+        ventana.show();
+        
         
     }
 
     @FXML
     void borrarFiltro(ActionEvent event) {
-        
+        if (this.tabActual.equals(tabUsuarios)) {
+            this.listafiltradaUsuarios.setPredicate(p -> true);
+        }
+        if (this.tabActual.equals(tabPrestamos)) {
+            this.listafiltradaPrestamos.setPredicate(p -> true);
+                
+        }
+        if (this.tabActual.equals(tabLibros)) {
+            this.listafiltradaLibros.setPredicate(p -> true);
+        }
     }
+    
 
     @FXML
     void crearRegistro(ActionEvent event) throws IOException{
@@ -277,7 +307,21 @@ public class ControladorPrincipal implements Initializable{
         Stage ventana = new Stage();
         ventana.setTitle(titulo);
         if(cargadorFxml.getController() instanceof Filtrar f){
-             f.setTab(tabActual);
+            if (this.tabActual.equals(tabUsuarios)) {
+                f.setValores(tabActual, listafiltradaUsuarios);
+            }
+            if (this.tabActual.equals(tabPrestamos)) {
+                f.setValores(tabActual, listafiltradaPrestamos);
+            }
+            if (this.tabActual.equals(tabLibros)) {
+                f.setValores(tabActual, listafiltradaLibros);
+            }
+            
+        }
+        if (cargadorFxml.getController() instanceof Card c) {
+            TransitTheme t1 = new TransitTheme();
+            t1.setScene(scene);
+            c.setLibroMostrado(modeloAPasar);
         }
         if (cargadorFxml.getController() instanceof Rellenable r) {
             realizarConexion();
@@ -286,7 +330,6 @@ public class ControladorPrincipal implements Initializable{
 
                 r.setValores(this.conexion, true);
             }else{
-
                 r.setValores(this.conexion, false);
                 r.rellenarValores(modeloAPasar);
             }
@@ -394,6 +437,7 @@ public class ControladorPrincipal implements Initializable{
                         }
                     }
                     if (this.tabActual.equals(tabLibros)) {
+
                         if(this.anchorPaneSeleccionado!=null){
                             
                             Libro libroBorrado = this.modeloAPasar instanceof Libro l ? l : null;
@@ -515,7 +559,6 @@ public class ControladorPrincipal implements Initializable{
     }
     private void rellenarLibros(ResultSet libros){
         librosOL.clear();
-        librosGridPane.getChildren().clear();
         try{
             if (libros != null) {
             while (libros.next()) {
@@ -558,14 +601,25 @@ public class ControladorPrincipal implements Initializable{
     private void rellenarGrid(){
         this.fila = 0;
         this.columna= 0;
-        this.librosOL.forEach( (libro) ->{
-            if (this.fila<=3) {
+        this.librosGridPane.getChildren().clear();
+        this.listafiltradaLibros.forEach( (libro) ->{
+            
                 AnchorPane root = new AnchorPane();
+                
                 root.getStyleClass().remove("card-selected");
                 root.getStyleClass().add("card"); // clase seleccionado
                 root.setOnMouseClicked(e -> {
+                    if (e.getClickCount()==2) {
+                        try{
+                            ActionEvent evento = new ActionEvent();
+                            editarRegistro(evento);
+                        }catch(IOException error){
+                            System.out.println(error.getMessage());
+                        }
+                    }
                     this.modeloAPasar=libro;
                     this.anchorPaneSeleccionado = root;
+                    
                     System.out.println("AnchorPane seleccionado");
                     this.librosGridPane.getChildren().forEach(
                         pane -> {
@@ -579,11 +633,12 @@ public class ControladorPrincipal implements Initializable{
                     root.getStyleClass().add("card-selected"); // clase seleccionado
 
                 });
-                root.setPrefSize(150, 150); // ancho x alto fijo
-                root.setMinSize(150, 150);
-                root.setMaxSize(150, 150);
+                root.setPrefSize(150, 180); // ancho x alto fijo
+                root.setMinSize(150, 180);
+                root.setMaxSize(150, 180);
                 
                 VBox card = new VBox(10); 
+                
                 card.setPadding(new Insets(20));
                 card.setAlignment(Pos.CENTER);
                 Label labelPrincipal = new Label(libro.getTitulo());
@@ -596,17 +651,14 @@ public class ControladorPrincipal implements Initializable{
                 
                 
                 boton.setOnAction((e) -> {
-                    Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                    alerta.setTitle(libro.getTitulo());
-                    alerta.setContentText(
-                        "Titulo: "+libro.getTitulo()+"\n"+
-                        "Autor: "+libro.getAutor()+"\n"+
-                        "Generos: "+libro.getGeneros()+"\n"+
-                        "ISBN: "+libro.getISBN()+"\n"+
-                        "Estado: "+libro.getEstado()+"\n"+
-                        "Numero de páginas: "+libro.getNro_paginas()
-                    );
-                    alerta.showAndWait();
+                    try{
+                        this.modeloAPasar = libro;
+                        Stage ventana = crearVentana("/card.fxml", "Crear Card");
+                        ventana.show();
+                       
+                    }catch(IOException a){
+                        System.out.println(a.getMessage());
+                    }
                 });
                 card.getChildren().addAll(labelPrincipal, labelSecundario, imageView, boton);
                 
@@ -622,9 +674,7 @@ public class ControladorPrincipal implements Initializable{
                     this.columna=0;
                     this.fila++;
                 }
-            }else{
-                System.out.println("No entran mas cards en esta página");
-            }
+            
         });
     }
     private void realizarConexion(){
@@ -647,17 +697,73 @@ public class ControladorPrincipal implements Initializable{
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //CREACIÓN MENÚS CONTEXTUALES
+        this.menuContextualTablasCards= new ContextMenu();
+        MenuItem crearItem = new MenuItem("Crear");
+        MenuItem filtrarItem = new MenuItem("Filtrar");
+        MenuItem eliminarFiltroItem = new MenuItem("Eliminar filtro");
+        MenuItem eliminarItem = new MenuItem("Eliminar Registro");
+        MenuItem editarItem = new MenuItem("Editar Registro");
+
+        crearItem.setOnAction(E -> {
+            try{
+                crearRegistro(E);
+            }catch(IOException e){
+                System.out.println(e.getMessage());
+            }
+        });
+         filtrarItem.setOnAction(E -> {
+            try{
+                abrirFiltrar(E);
+            }catch(IOException e){
+                System.out.println(e.getMessage());
+            }
+        });
+        eliminarFiltroItem.setOnAction(E ->borrarFiltro(E));
+        eliminarItem.setOnAction(E -> eliminarRegistro(E));
+        eliminarItem.setDisable(true);
+        editarItem.setDisable(true);
+        editarItem.setOnAction(E -> {
+            try{
+                editarRegistro(E);
+            }catch(IOException e){
+                System.out.println(e.getMessage());
+            }
+        });
+        this.tablaUsuarios.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            eliminarItem.setDisable(newSelection == null);
+            editarItem.setDisable(newSelection == null);
+
+        });
+        this.tablaPrestamos.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            editarItem.setDisable(newSelection == null);
+            eliminarItem.setDisable(newSelection == null);
+        });
+        
+        
+
+        menuContextualTablasCards.getItems().addAll(crearItem, filtrarItem, eliminarFiltroItem,eliminarItem,editarItem);
+
+        
         //CONFIGURACIÓN DE LAS TABLAS
         
         usuariosOL = FXCollections.observableArrayList();
         prestamosOL = FXCollections.observableArrayList();
         librosOL = FXCollections.observableArrayList();
+
+        listafiltradaUsuarios = new FilteredList<>(usuariosOL, u -> true);
+        listafiltradaPrestamos = new FilteredList<>(prestamosOL, p -> true);
+        listafiltradaLibros = new FilteredList<>(librosOL, l -> true);
+        listafiltradaLibros.predicateProperty().addListener((observable,newvalue,oldvalue) -> {
+            this.rellenarGrid();
+        });
         this.librosGridPane.setPadding(new Insets(20, 20, 20, 20)); 
         this.librosGridPane.setHgap(20); 
         this.librosGridPane.setVgap(20); 
         //  USUARIOS
         //INICIALIZAMOS COLUMNAS
-        tablaUsuarios.setItems(usuariosOL);
+        tablaUsuarios.setItems(listafiltradaUsuarios);
+        tablaUsuarios.setContextMenu(menuContextualTablasCards);
         usuariosNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         usuariosApellido.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
         usuariosDNI.setCellValueFactory(new PropertyValueFactory<>("DNI"));
@@ -668,17 +774,18 @@ public class ControladorPrincipal implements Initializable{
         
         //PRESTAMOS
         //INICIALIZAMOS COLUMNAS
-            tablaPrestamos.setItems(prestamosOL);
+            tablaPrestamos.setItems(listafiltradaPrestamos);
+            tablaPrestamos.setContextMenu(menuContextualTablasCards);
             prestamosID.setCellValueFactory(new PropertyValueFactory<>("idPrestamo"));
             prestamosDNI.setCellValueFactory(new PropertyValueFactory<>("DNI"));
-            prestamosEntregado.setCellValueFactory(new PropertyValueFactory<>("buenestado"));
+            prestamosEntregado.setCellValueFactory(new PropertyValueFactory<>("imagenEntrega"));
             prestamosISBN.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
             prestamosFechaDevolucion.setCellValueFactory(new PropertyValueFactory<>("fecha_devolucion"));
             prestamosFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fecha_inicio"));
             prestamosDiasRestantes.setCellValueFactory(new PropertyValueFactory<>("dias_restantes"));
            
         //LIBROS
-
+        this.tabLibros.setContextMenu(menuContextualTablasCards);
         
      //CONEXION A LA BBDD
     
@@ -701,21 +808,76 @@ public class ControladorPrincipal implements Initializable{
         
         
     
-        //PRESTAMOS
-        tablaPrestamos.setItems(prestamosOL);
+        
 
         //DESPUES 
         
     
         
-
+        //FUNCIONALIDAD EDITAR DOBLECLICK
+        tablaUsuarios.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+                Usuario seleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
+                if (seleccionado != null) {
+                    ActionEvent evento= new ActionEvent();
+                    try{
+                        editarRegistro(evento);                        
+                    }catch(IOException e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+            }
+        });
+        tablaPrestamos.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+                Prestamo seleccionado = tablaPrestamos.getSelectionModel().getSelectedItem();
+                if (seleccionado != null) {
+                    ActionEvent evento= new ActionEvent();
+                    try{
+                        editarRegistro(evento);                        
+                    }catch(IOException e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+            }
+        });
 
 //CONFIGURACION DE NAVEGABILIDAD ENTRE PESTAÑAS
         this.tabActual = this.tabUsuarios;
        tabPane.getSelectionModel().selectedItemProperty().addListener((observable, viejo, nuevo) -> {
             if (nuevo != null) {
                 this.tabActual = nuevo;
+                if (this.anchorPaneSeleccionado!=null) {
+                    this.anchorPaneSeleccionado.getStyleClass().remove("card-selected");
+                    this.anchorPaneSeleccionado.getStyleClass().add("card");
+                }
                 this.anchorPaneSeleccionado=null;
+                if (nuevo.equals(tabUsuarios) && this.tablaUsuarios.getSelectionModel().getSelectedItem()!=null) {
+                    editarItem.setDisable(false);
+                    eliminarItem.setDisable(false);
+
+                }else{
+                    editarItem.setDisable(true);
+                    eliminarItem.setDisable(true);
+                }
+                if (nuevo.equals(tabPrestamos) && this.tablaPrestamos.getSelectionModel().getSelectedItem()!=null) {
+                    editarItem.setDisable(false);
+                    eliminarItem.setDisable(false);
+
+                }else{
+                    editarItem.setDisable(true);
+                    eliminarItem.setDisable(true);
+                }
+                if (nuevo.equals(tabLibros) ) {
+                    editarItem.setDisable(false);
+                    eliminarItem.setDisable(false);
+
+                }else{
+                    editarItem.setDisable(true);
+                    eliminarItem.setDisable(true);
+                }
+
+
                 if (this.tabActual.equals(pestañaSalir)) {
                     Stage ventana = (Stage)tabPane.getScene().getWindow();
                     try{

@@ -82,7 +82,7 @@
              styleClass="form-label" />
       <DatePicker fx:id="dateusuariosfechanac" layoutX="225" layoutY="318"
                   prefWidth="133" prefHeight="26"
-                  styleClass="form-date">
+                  id="fechanac">
          <tooltip>
             <Tooltip text="Selecciona la fecha de nacimiento del usuario." />
          </tooltip>

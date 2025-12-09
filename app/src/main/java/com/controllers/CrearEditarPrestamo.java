@@ -295,8 +295,8 @@ public class CrearEditarPrestamo implements Rellenable,Initializable {
 
     private void actualizarPrestamo(Prestamo p) {
         String sql = "UPDATE PRESTAMO SET Fecha_inicio=?, Fecha_devolucion=?, Dias_restantes=?, Buenestado=? WHERE id_prestamo=?";
-
-        try (PreparedStatement ps = conexionBBDD.prepareStatement(sql)) {
+        if (conexionBBDD!=null) {
+            try (PreparedStatement ps = conexionBBDD.prepareStatement(sql)) {
             ps.setString(1, p.getFecha_inicio());
             ps.setString(2, p.getFecha_devolucion());
             ps.setInt(3, p.getDias_restantes());
@@ -304,9 +304,11 @@ public class CrearEditarPrestamo implements Rellenable,Initializable {
             ps.setInt(5, p.getIdPrestamo());
             ps.executeUpdate();
             
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
         }
+        
     }
 
     @Override

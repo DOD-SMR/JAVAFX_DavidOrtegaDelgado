@@ -79,6 +79,9 @@ public class ControladorPrincipal implements Initializable{
     private  List<String> tablasValidas = Arrays.asList("USUARIO", "PRESTAMO", "LIBRO");
     
     @FXML
+    private Label conexionbbdd;
+    
+    @FXML
     private Button botonBorrraFiltro;
 
     @FXML
@@ -608,6 +611,22 @@ public class ControladorPrincipal implements Initializable{
                 
                 root.getStyleClass().remove("card-selected");
                 root.getStyleClass().add("card"); // clase seleccionado
+                
+                root.setPrefSize(150, 180); // ancho x alto fijo
+                root.setMinSize(150, 180);
+                root.setMaxSize(150, 180);
+                
+                VBox card = new VBox(10); 
+                
+                card.setPadding(new Insets(20));
+                card.setAlignment(Pos.CENTER);
+                Label labelPrincipal = new Label(libro.getTitulo());
+                labelPrincipal.setFont(Font.font("Arial", 14));
+                Label labelSecundario = new Label(libro.getAutor());
+                labelSecundario.setFont(Font.font("Arial", 10));
+                labelSecundario.setTextFill(Color.GRAY);
+                ImageView imageView = libro.getImagen_portada();
+                Button boton = new Button("Mostrar datos");
                 root.setOnMouseClicked(e -> {
                     if (e.getClickCount()==2) {
                         try{
@@ -630,32 +649,28 @@ public class ControladorPrincipal implements Initializable{
                         }
                     );
                     root.getStyleClass().remove("card");
-                    root.getStyleClass().add("card-selected"); // clase seleccionado
+                    root.getStyleClass().add("card-selected");
+                    labelPrincipal.setStyle("-fx-text-fill:rgb(255,255,255)"); // clase seleccionado
 
                 });
-                root.setPrefSize(150, 180); // ancho x alto fijo
-                root.setMinSize(150, 180);
-                root.setMaxSize(150, 180);
-                
-                VBox card = new VBox(10); 
-                
-                card.setPadding(new Insets(20));
-                card.setAlignment(Pos.CENTER);
-                Label labelPrincipal = new Label(libro.getTitulo());
-                labelPrincipal.setFont(Font.font("Arial", 14));
-                Label labelSecundario = new Label(libro.getAutor());
-                labelSecundario.setFont(Font.font("Arial", 10));
-                labelSecundario.setTextFill(Color.GRAY);
-                ImageView imageView = libro.getImagen_portada();
-                Button boton = new Button("Mostrar datos");
-                
                 
                 boton.setOnAction((e) -> {
                     try{
                         this.modeloAPasar = libro;
                         Stage ventana = crearVentana("/card.fxml", "Crear Card");
                         ventana.show();
-                       
+                         System.out.println("AnchorPane seleccionado");
+                    this.librosGridPane.getChildren().forEach(
+                        pane -> {
+                            pane.getStyleClass().remove("card-selected");
+                            if (!pane.getStyleClass().contains("card")) {
+                                pane.getStyleClass().add("card");
+                            }
+                        }
+                    );
+                    root.getStyleClass().remove("card");
+                    root.getStyleClass().add("card-selected");
+                    labelPrincipal.setStyle("-fx-text-fill:rgb(255,255,255)");
                     }catch(IOException a){
                         System.out.println(a.getMessage());
                     }
@@ -690,7 +705,13 @@ public class ControladorPrincipal implements Initializable{
         try{
             this.conexion = DriverManager.getConnection(url, user, pass);
             System.out.println("CONEXION CREADA CON EXITO");
+            conexionbbdd.setText("Conexión db: Conectada");
+            conexionbbdd.setStyle("-fx-text-fill: rgba(35, 210, 8, 1)");
+
+
         }catch(SQLException e){
+            conexionbbdd.setText("Conexión db: sin conexión");
+            conexionbbdd.setStyle("-fx-text-fill: rgba(255, 74, 68, 1)");
             System.out.println(e.getMessage());
         }
     }
@@ -787,7 +808,7 @@ public class ControladorPrincipal implements Initializable{
         //LIBROS
         this.tabLibros.setContextMenu(menuContextualTablasCards);
         
-     //CONEXION A LA BBDD
+    //CONEXION A LA BBDD
     
         //RELLENAMOS TODAS LAS TABLAS Y CARDS
         realizarConexion();

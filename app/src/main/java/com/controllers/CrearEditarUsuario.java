@@ -96,7 +96,7 @@ public class CrearEditarUsuario implements Rellenable, Initializable {
 
         if (creando) {
             // INSERT
-            if (!yaExiste) {
+            if (!yaExiste && this.conexionBBDD!=null) {
                 String sql = "INSERT INTO USUARIO (DNI, Nombre, Apellido1, Apellido2, FECHA_NACIMIENTO,Telefono, Sexo, Foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
                 try {
@@ -120,9 +120,9 @@ public class CrearEditarUsuario implements Rellenable, Initializable {
                     e.printStackTrace();
                 }
             }else{
-                Alert a1 =new Alert(AlertType.ERROR,"ERROR, EL DNI YA EXISTE");
+                Alert a1 =new Alert(AlertType.ERROR,"ERROR, EL DNI YA EXISTE O LA CONEXIÓN FALLÓ");
                 a1.showAndWait();
-                System.out.println("ERROR AL GUARDAR, EL DNI DEL USUARIO YA EXISTE");
+                System.out.println("ERROR AL GUARDAR, EL DNI DEL USUARIO YA EXISTE O LA CONEXIÓN FALLÓ");
             }
             
         } else {
@@ -185,7 +185,7 @@ public class CrearEditarUsuario implements Rellenable, Initializable {
             try {
                 String base64Imagen = convertirArchivoA64(archivoSeleccionado);
                 this.imagenFoto = base64Imagen;
-                btnusuariofoto.setText("✓ Foto seleccionada");
+                btnusuariofoto.setText("Foto seleccionada");
             } catch (IOException e) {
                 e.printStackTrace();
             }

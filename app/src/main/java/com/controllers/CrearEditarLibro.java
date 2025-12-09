@@ -97,7 +97,7 @@ public class CrearEditarLibro implements Rellenable,Initializable{
     String isbn = txtlibrosisbn.getText();
     boolean yaExiste = Prestamo.getListaLibros().stream().anyMatch(libro -> libro.getISBN().equals(isbn));
     
-    if (creando) {
+    if (creando && this.conexionBBDD!=null) {
         if (!yaExiste) {
             String sql = "INSERT INTO LIBRO (ISBN, Titulo, Autor, Estado, Nro_paginas, Imagen_portada, Generos) "
            + "VALUES (?, ?, ?, ?, ?, ?, ?)";
